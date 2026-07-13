@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="theme-color" content="#0b3d33">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="কৃষি ব্যাংক মাদারীপুর">
+<link id="manifestLink" rel="manifest">
+<title>বাংলাদেশ কৃষি ব্যাংক, মাদারীপুর — এমপ্লয়ি ডিরেক্টরি</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f2e28; --paper:#f6f4ee; --paper-2:#ffffff;
+    --green-deep:#0b3d33; --green:#0d5c4d; --green-soft:#e4efe9;
+    --gold:#c99a3f; --gold-soft:#f3e6c8; --danger:#b3402f;
+    --line:rgba(15,46,40,0.14); --shadow:0 10px 30px -12px rgba(11,61,51,0.28);
+    --radius:16px; --radius-sm:10px;
+  }
+  [data-theme="dark"]{
+    --ink:#eef2f0; --paper:#0b1512; --paper-2:#122019;
+    --green-deep:#0e2b24; --green:#1e7c67; --green-soft:#132a23;
+    --gold:#e0b158; --gold-soft:#26200f; --danger:#e08170;
+    --line:rgba(238,242,240,0.12); --shadow:0 10px 30px -12px rgba(0,0,0,0.6);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Hind Siliguri', system-ui, sans-serif;
+    background:var(--paper); color:var(--ink); min-height:100vh;
+    transition:background .25s ease, color .25s ease; padding-bottom:100px;
+  }
+  .stamp-band{ height:6px; background:repeating-linear-gradient(90deg, var(--gold) 0 18px, var(--green) 18px 36px); }
+  header.top{
+    background:linear-gradient(160deg, var(--green-deep), var(--green) 120%);
+    color:#f4efe0; padding:22px 18px 26px; position:relative; overflow:hidden;
+  }
+  header.top::after{ content:""; position:absolute; right:-40px; top:-40px; width:180px; height:180px; border-radius:50%; border:1.5px solid rgba(244,239,224,0.18); }
+  header.top::before{ content:""; position:absolute; right:20px; top:60px; width:90px; height:90px; border-radius:50%; border:1.5px solid rgba(244,239,224,0.14); }
+  .brand-row{display:flex; align-items:center; gap:12px; position:relative; z-index:1;}
+  .seal{ width:52px;height:52px;border-radius:50%; background:radial-gradient(circle at 32% 28%, var(--gold), #8a6420 78%); display:flex;align-items:center;justify-content:center; font-weight:700; color:#241c07; font-size:20px; box-shadow:0 4px 14px rgba(0,0,0,.35); flex:none; }
+  .brand-text .bank-name{font-family:'Tiro Bangla', serif; font-size:1.5rem; font-weight:700; line-height:1.25; letter-spacing:.2px;}
+  .brand-text .bank-sub{font-size:.92rem; opacity:.85; margin-top:2px;}
+  .eyebrow{ display:inline-block; margin-top:14px; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(201,154,63,.5); padding:3px 10px; border-radius:999px; position:relative; z-index:1; }
+  .top-actions{position:absolute; top:20px; left:18px; display:flex; gap:8px; z-index:2;}
+  .icon-btn{ width:36px;height:36px; border-radius:50%; border:1px solid rgba(244,239,224,.35); background:rgba(255,255,255,.08); color:#f4efe0; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; }
+  .icon-btn:active{transform:scale(.94);}
+  .install-btn{ position:absolute; top:20px; right:18px; z-index:2; display:none; align-items:center; gap:6px; font-size:.75rem; padding:7px 12px; border-radius:999px; border:1px solid rgba(244,239,224,.4); background:rgba(255,255,255,.1); color:#f4efe0; cursor:pointer; }
+
+  main{max-width:640px; margin:0 auto; padding:0 16px;}
+
+  .stats-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:-30px; position:relative; z-index:3; }
+  .stat-card{ background:var(--paper-2); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow); border:1px solid var(--line); }
+  .stat-card .num{font-size:1.6rem; font-weight:700; color:var(--green);}
+  [data-theme="dark"] .stat-card .num{color:var(--gold);}
+  .stat-card .lab{font-size:.78rem; opacity:.75; margin-top:2px;}
+
+  .search-wrap{margin-top:18px; position:relative;}
+  .search-wrap input{ width:100%; padding:14px 44px 14px 44px; border-radius:999px; border:1.5px solid var(--line); background:var(--paper-2); color:var(--ink); font-size:1rem; font-family:inherit; outline:none; }
+  .search-wrap input:focus{border-color:var(--gold);}
+  .search-icon{position:absolute; left:16px; top:50%; transform:translateY(-50%); opacity:.55; font-size:1.05rem;}
+  .clear-btn{ position:absolute; right:10px; top:50%; transform:translateY(-50%); width:26px;height:26px;border-radius:50%; border:none; background:var(--green-soft); color:var(--green); cursor:pointer; display:none; align-items:center; justify-content:center; }
+  [data-theme="dark"] .clear-btn{color:var(--gold);}
+  .search-hint{font-size:.72rem; opacity:.55; margin:6px 4px 0;}
+
+  .filter-row{display:flex; gap:8px; overflow-x:auto; margin-top:12px; padding-bottom:4px; -webkit-overflow-scrolling:touch;}
+  .filter-row::-webkit-scrollbar{display:none;}
+  .chip{ flex:none; padding:7px 14px; border-radius:999px; font-size:.82rem; border:1px solid var(--line); background:var(--paper-2); color:var(--ink); opacity:.8; cursor:pointer; white-space:nowrap; }
+  .chip.active{background:var(--green); color:#fff; border-color:var(--green); opacity:1;}
+  [data-theme="dark"] .chip.active{background:var(--gold); color:#241c07; border-color:var(--gold);}
+
+  .result-meta{margin:16px 2px 8px; font-size:.85rem; opacity:.65; display:flex; justify-content:space-between; align-items:center;}
+  .branch-toggle{font-size:.8rem; color:var(--green); cursor:pointer; font-weight:600;}
+  [data-theme="dark"] .branch-toggle{color:var(--gold);}
+
+  .branch-group{margin-bottom:14px;}
+  .branch-head{ display:flex; align-items:center; gap:8px; padding:10px 4px; font-weight:600; font-size:.95rem; color:var(--green-deep); border-bottom:1px dashed var(--line); }
+  [data-theme="dark"] .branch-head{color:var(--gold);}
+  .branch-head .code{font-size:.72rem; font-weight:500; opacity:.6;}
+  .branch-head .count{ margin-left:auto; font-size:.75rem; background:var(--gold-soft); color:var(--green-deep); padding:2px 9px; border-radius:999px; font-weight:600; }
+  [data-theme="dark"] .branch-head .count{color:var(--gold);}
+
+  .emp-card{ display:flex; align-items:center; gap:12px; background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px; margin:8px 0; cursor:pointer; transition:transform .12s ease; }
+  .emp-card:active{transform:scale(.985);}
+  .avatar{ width:42px; height:42px; border-radius:50%; flex:none; background:linear-gradient(150deg, var(--green), var(--green-deep)); color:#f4efe0; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem; }
+  .emp-info{flex:1; min-width:0;}
+  .emp-name{font-weight:600; font-size:1rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .emp-role{font-size:.82rem; opacity:.7; margin-top:1px;}
+  .emp-pf{font-size:.72rem; opacity:.55; margin-top:2px;}
+  .call-quick{ flex:none; width:38px; height:38px; border-radius:50%; border:none; background:var(--green-soft); color:var(--green); display:flex; align-items:center; justify-content:center; font-size:1.1rem; text-decoration:none; }
+  [data-theme="dark"] .call-quick{color:var(--gold); background:var(--gold-soft);}
+
+  .empty-state{text-align:center; padding:50px 20px; opacity:.6;}
+  .empty-state .glyph{font-size:2.4rem; margin-bottom:10px;}
+
+  .fab{
+    position:fixed; right:20px; bottom:26px; width:58px; height:58px; border-radius:50%;
+    background:linear-gradient(150deg, var(--gold), #a97f2e); color:#241c07; border:none;
+    font-size:1.7rem; box-shadow:0 10px 26px -6px rgba(0,0,0,.4); cursor:pointer; z-index:40;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .fab:active{transform:scale(.93);}
+
+  .overlay{ position:fixed; inset:0; background:rgba(11,21,18,.55); display:none; align-items:flex-end; z-index:50; backdrop-filter:blur(2px); }
+  .overlay.show{display:flex;}
+  .sheet{ background:var(--paper-2); width:100%; max-width:640px; margin:0 auto; border-radius:22px 22px 0 0; padding:22px 20px 26px; max-height:90vh; overflow-y:auto; box-shadow:0 -10px 40px rgba(0,0,0,.35); animation:slideUp .22s ease; }
+  @keyframes slideUp{from{transform:translateY(30px); opacity:.4;} to{transform:translateY(0); opacity:1;}}
+  .sheet-handle{width:40px; height:4px; background:var(--line); border-radius:99px; margin:0 auto 16px;}
+  .sheet-head{display:flex; align-items:center; gap:14px;}
+  .sheet-avatar{ width:58px; height:58px; border-radius:50%; background:linear-gradient(150deg, var(--green), var(--green-deep)); color:#f4efe0; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.3rem; flex:none; }
+  .sheet-name{font-size:1.2rem; font-weight:700;}
+  .sheet-role{font-size:.9rem; color:var(--green); font-weight:600; margin-top:2px;}
+  [data-theme="dark"] .sheet-role{color:var(--gold);}
+  .sheet-title{font-size:1.15rem; font-weight:700; margin-bottom:14px;}
+
+  .detail-grid{margin-top:18px; display:flex; flex-direction:column; gap:0;}
+  .detail-row{display:flex; justify-content:space-between; gap:10px; padding:11px 0; border-bottom:1px solid var(--line); font-size:.92rem;}
+  .detail-row .k{opacity:.6;}
+  .detail-row .v{font-weight:600; text-align:right;}
+  .detail-row .v.empty{opacity:.4; font-weight:400; font-style:italic;}
+
+  .action-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:20px;}
+  .action-btn{ display:flex; flex-direction:column; align-items:center; gap:5px; padding:12px 4px; border-radius:14px; border:1px solid var(--line); background:var(--paper); color:var(--ink); text-decoration:none; font-size:.72rem; cursor:pointer; }
+  .action-btn .ic{font-size:1.25rem;}
+  .action-btn.primary{background:var(--green); color:#fff; border-color:var(--green);}
+  [data-theme="dark"] .action-btn.primary{background:var(--gold); color:#241c07;}
+  .action-btn.danger{color:var(--danger); border-color:var(--danger);}
+
+  .form-field{margin-bottom:14px;}
+  .form-field label{display:block; font-size:.8rem; opacity:.7; margin-bottom:6px; font-weight:600;}
+  .form-field input{ width:100%; padding:11px 13px; border-radius:10px; border:1.5px solid var(--line); background:var(--paper); color:var(--ink); font-size:.95rem; font-family:inherit; outline:none; }
+  .form-field input:focus{border-color:var(--gold);}
+  .form-field .hint{font-size:.7rem; opacity:.5; margin-top:4px;}
+  .form-actions{display:flex; gap:10px; margin-top:18px;}
+  .form-actions button{ flex:1; padding:13px; border-radius:12px; border:none; font-family:inherit; font-size:.95rem; font-weight:600; cursor:pointer; }
+  .btn-save{background:var(--green); color:#fff;}
+  [data-theme="dark"] .btn-save{background:var(--gold); color:#241c07;}
+  .btn-cancel{background:var(--paper); border:1.5px solid var(--line) !important; color:var(--ink);}
+  .btn-delete-row{margin-top:10px; text-align:center; color:var(--danger); font-size:.85rem; cursor:pointer; padding:8px;}
+
+  .confirm-box{ background:var(--paper-2); border-radius:18px; padding:22px 20px; max-width:340px; margin:auto; text-align:center; }
+  .confirm-box p{font-size:.95rem; margin:10px 0 18px;}
+  .confirm-actions{display:flex; gap:10px;}
+  .confirm-actions button{flex:1; padding:11px; border-radius:10px; border:none; font-family:inherit; font-weight:600; cursor:pointer;}
+
+  .toast{ position:fixed; bottom:96px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--green-deep); color:#f4efe0; padding:10px 18px; border-radius:999px; font-size:.85rem; opacity:0; transition:all .25s ease; z-index:60; pointer-events:none; max-width:88%; text-align:center;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  footer.app-footer{ text-align:center; margin-top:30px; padding:18px 0 4px; font-size:.78rem; opacity:.55; }
+  footer.app-footer b{color:var(--green);}
+  [data-theme="dark"] footer.app-footer b{color:var(--gold);}
+</style>
+</head>
+<body data-theme="light">
+<div class="stamp-band"></div>
+<header class="top">
+  <div class="top-actions">
+    <button class="icon-btn" id="themeToggle" title="থিম পরিবর্তন">🌓</button>
+  </div>
+  <button class="install-btn" id="installBtn">📲 <span>ইনস্টল করুন</span></button>
+  <div class="brand-row">
+    <div class="seal">কৃ</div>
+    <div class="brand-text">
+      <div class="bank-name">বাংলাদেশ কৃষি ব্যাংক</div>
+      <div class="bank-sub">মাদারীপুর জেলা — এমপ্লয়ি ডিরেক্টরি</div>
+    </div>
+  </div>
+  <span class="eyebrow">অফলাইন ডিরেক্টরি</span>
+</header>
+
+<main>
+  <div class="stats-row">
+    <div class="stat-card"><div class="num" id="statEmp">0</div><div class="lab">মোট কর্মকর্তা</div></div>
+    <div class="stat-card"><div class="num" id="statBranch">0</div><div class="lab">মোট শাখা</div></div>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔎</span>
+    <input id="searchInput" type="text" placeholder="নাম, PF Index, শাখা কোড, ফোন বা শাখা লিখুন..." autocomplete="off">
+    <button class="clear-btn" id="clearSearch">✕</button>
+  </div>
+  <div class="search-hint">টিপ: শাখার কোড দিয়েও সার্চ করা যাবে</div>
+
+  <div class="filter-row" id="filterRow"></div>
+
+  <div class="result-meta">
+    <span id="resultCount">সব কর্মকর্তা</span>
+    <span class="branch-toggle" id="groupToggle">শাখা অনুযায়ী দেখুন</span>
+  </div>
+
+  <div id="listArea"></div>
+</main>
+
+<button class="fab" id="fabAdd" title="নতুন কর্মকর্তা যোগ করুন">+</button>
+
+<footer class="app-footer">
+  বাংলাদেশ কৃষি ব্যাংক, মাদারীপুর ডিরেক্টরি &middot; Developed by <b>নুরুল ইসলাম</b>
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="sheet" id="sheet"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const BASE_EMPLOYEES = [
+{id:"P-351",pf:"P-351",name:"Premanshu Biswas",desig:"Assistant General Manager",branch:"Madaripur Branch",branchCode:"",phones:["01732817920"]},
+{id:"A-7274",pf:"A-7274",name:"Azizul Haque",desig:"Principal Officer",branch:"Madaripur Branch",branchCode:"",phones:["01721575786"]},
+{id:"SO-2026-209713",pf:"SO-2026-209713",name:"Shanto Hossain",desig:"Senior Officer",branch:"Madaripur Branch",branchCode:"",phones:["01567826182","01741363030"]},
+{id:"N-1611",pf:"N-1611",name:"Mohammad Nazrul Islam",desig:"Officer",branch:"Madaripur Branch",branchCode:"",phones:["01718139676"]},
+{id:"S-5108",pf:"S-5108",name:"Sarmila Akter",desig:"Officer",branch:"Madaripur Branch",branchCode:"",phones:["01740332882"]},
+{id:"N-1511",pf:"N-1511",name:"Mohammad Nahidul Islam",desig:"Officer",branch:"Madaripur Branch",branchCode:"",phones:["01737744948"]},
+{id:"A-8991",pf:"A-8991",name:"Anika Busra",desig:"Officer",branch:"Madaripur Branch",branchCode:"",phones:["01833034557","01787507739"]},
+{id:"Officer-2026-301541",pf:"Officer-2026-301541",name:"Md Imran Hossain Rana",desig:"Officer",branch:"Madaripur Branch",branchCode:"",phones:["01572918712","01782410947"]},
+{id:"A-7454",pf:"A-7454",name:"Arif-Ul-Islam",desig:"Officer (Cash)",branch:"Madaripur Branch",branchCode:"",phones:["01916987739"]},
+{id:"Z-226",pf:"Z-226",name:"Md. Jahirul Islam",desig:"Daftory",branch:"Madaripur Branch",branchCode:"",phones:["01712470680"]},
+
+{id:"S-4740",pf:"S-4740",name:"Subal Kumar Debnath",desig:"Senior Principal Officer",branch:"Mather Bazar Branch",branchCode:"",phones:["01953602978"]},
+{id:"R-1208",pf:"R-1208",name:"Rahima Akter",desig:"Principal Officer",branch:"Mather Bazar Branch",branchCode:"",phones:["01716488021"]},
+{id:"N-1690",pf:"N-1690",name:"Nipa Rani Dey",desig:"Senior Officer",branch:"Mather Bazar Branch",branchCode:"",phones:["01954270234"]},
+{id:"M-3920",pf:"M-3920",name:"Mosharaf Hossain",desig:"Senior Officer",branch:"Mather Bazar Branch",branchCode:"",phones:["01724526932"]},
+{id:"A-8697",pf:"A-8697",name:"Ashish Adhikary",desig:"Officer",branch:"Mather Bazar Branch",branchCode:"",phones:["01840686044"]},
+
+{id:"K-970",pf:"K-970",name:"Md. Kamal Hossain",desig:"Senior Principal Officer",branch:"Rajoir Branch",branchCode:"",phones:["01721201820","01911127775"]},
+{id:"R-1527",pf:"R-1527",name:"Rahul Kumar Laha",desig:"Principal Officer",branch:"Rajoir Branch",branchCode:"",phones:["01718771781"]},
+{id:"M-4068",pf:"M-4068",name:"Matiur Rahaman",desig:"Senior Officer",branch:"Rajoir Branch",branchCode:"",phones:["01746703212"]},
+{id:"S-4257",pf:"S-4257",name:"Sahabuddin Fakir",desig:"Senior Officer",branch:"Rajoir Branch",branchCode:"",phones:["01811440492"]},
+{id:"M-3919",pf:"M-3919",name:"Mahamadul Islam",desig:"Senior Officer",branch:"Rajoir Branch",branchCode:"",phones:["01729806679"]},
+{id:"SO-2026-233714",pf:"SO-2026-233714",name:"Sojibuzzaman",desig:"Senior Officer",branch:"Rajoir Branch",branchCode:"",phones:["01741222902","01831937824"]},
+{id:"M-4263",pf:"M-4263",name:"Mishar Barai",desig:"Officer",branch:"Rajoir Branch",branchCode:"",phones:["01737915025"]},
+{id:"S-5714",pf:"S-5714",name:"S. M. Saiduzzaman",desig:"Officer",branch:"Rajoir Branch",branchCode:"",phones:["01742514714"]},
+
+{id:"T-526",pf:"T-526",name:"Tanmay Kanti Bala",desig:"Senior Principal Officer",branch:"Kalkini Branch",branchCode:"",phones:["01719355025"]},
+{id:"R-1445",pf:"R-1445",name:"Rupa Nandi",desig:"Senior Officer",branch:"Kalkini Branch",branchCode:"",phones:["01735445734"]},
+{id:"SO-2026-284591",pf:"SO-2026-284591",name:"Md. Saif Khan",desig:"Senior Officer",branch:"Kalkini Branch",branchCode:"",phones:["01956672279"]},
+{id:"A-8211",pf:"A-8211",name:"Mohammad Ali",desig:"Officer",branch:"Kalkini Branch",branchCode:"",phones:["01708315900"]},
+{id:"S-5179",pf:"S-5179",name:"Sourav Mandal",desig:"Officer",branch:"Kalkini Branch",branchCode:"",phones:["01955255950"]},
+{id:"A-8340",pf:"A-8340",name:"Md Abu Saleh",desig:"Officer",branch:"Kalkini Branch",branchCode:"",phones:["01727216228"]},
+{id:"F-533",pf:"F-533",name:"Md. Faruk Hossain",desig:"Officer (Cash)",branch:"Kalkini Branch",branchCode:"",phones:["01727295144"]},
+
+{id:"M-4713",pf:"M-4713",name:"Md. Maruf-Ur-Rahman",desig:"Principal Officer",branch:"Sahebrampur Branch",branchCode:"",phones:["01747189315"]},
+{id:"F-984",pf:"F-984",name:"Chowdhury Fakrul Alam",desig:"Principal Officer",branch:"Sahebrampur Branch",branchCode:"",phones:["01766360285"]},
+{id:"A-8007",pf:"A-8007",name:"Al Amin Hossain",desig:"Officer",branch:"Sahebrampur Branch",branchCode:"",phones:["01306020656","01928370271"]},
+{id:"H-1032",pf:"H-1032",name:"Md. Hanif Shikder",desig:"Officer",branch:"Sahebrampur Branch",branchCode:"",phones:["01713569454","01749429471"]},
+{id:"A-8546",pf:"A-8546",name:"Anirban Biswas",desig:"Officer",branch:"Sahebrampur Branch",branchCode:"",phones:["01575101069"]},
+
+{id:"A-7568",pf:"A-7568",name:"Md. Ashadul Islam",desig:"Senior Principal Officer",branch:"Shibchar Branch",branchCode:"",phones:["01710501235","01916201071"]},
+{id:"A-8828",pf:"A-8828",name:"Md. Ajgar Howlader",desig:"Senior Officer",branch:"Shibchar Branch",branchCode:"",phones:["01515299158","01894221808"]},
+{id:"S-6007",pf:"S-6007",name:"Md. Sumon Hossain",desig:"Senior Officer",branch:"Shibchar Branch",branchCode:"",phones:["01779852381"]},
+{id:"S-5606",pf:"S-5606",name:"Md Sumon Ahmed",desig:"Officer",branch:"Shibchar Branch",branchCode:"",phones:["01927570118"]},
+{id:"S-6299",pf:"S-6299",name:"Sanjay Dey",desig:"Officer (Cash)",branch:"Shibchar Branch",branchCode:"",phones:["01982735667"]},
+{id:"M-4337",pf:"M-4337",name:"Mostafa Kamal",desig:"Supervisor",branch:"Shibchar Branch",branchCode:"",phones:["01774030023","01531993057"]},
+
+{id:"M-4744",pf:"M-4744",name:"Md Masud Rana",desig:"Principal Officer",branch:"Utrail Branch",branchCode:"",phones:["01722989694","01747457203"]},
+{id:"S-5977",pf:"S-5977",name:"Md. Saiful Alam",desig:"Senior Officer",branch:"Utrail Branch",branchCode:"",phones:["01929577427"]},
+{id:"F-903",pf:"F-903",name:"Foysal Hossain",desig:"Senior Officer",branch:"Utrail Branch",branchCode:"",phones:["01738355925"]},
+{id:"B-858",pf:"B-858",name:"Bishwajit Golder",desig:"Officer",branch:"Utrail Branch",branchCode:"",phones:["01755315218"]},
+{id:"K-1223",pf:"K-1223",name:"Krishna Karmaker",desig:"Officer (Cash)",branch:"Utrail Branch",branchCode:"",phones:["01717092963"]},
+
+{id:"R-1952",pf:"R-1952",name:"Md. Rakibul Hasan",desig:"Principal Officer",branch:"Pachchar Bazar Branch",branchCode:"",phones:["01724314627"]},
+{id:"M-4220",pf:"M-4220",name:"Mami Akter",desig:"Senior Officer",branch:"Pachchar Bazar Branch",branchCode:"",phones:["01717635309","01870671067"]},
+{id:"U-114",pf:"U-114",name:"Uttam Kumar Paul",desig:"Officer",branch:"Pachchar Bazar Branch",branchCode:"",phones:["01928793235"]},
+{id:"H-1153",pf:"H-1153",name:"Mst. Hosnaara Banu",desig:"Officer",branch:"Pachchar Bazar Branch",branchCode:"",phones:["01786393107"]},
+{id:"R-2318",pf:"R-2318",name:"Rezwan Parvez Ovi",desig:"Officer",branch:"Pachchar Bazar Branch",branchCode:"",phones:["01521211441"]},
+
+{id:"R-1964",pf:"R-1964",name:"Md. Rakibul Islam",desig:"Principal Officer",branch:"Kalir Bazar Branch",branchCode:"",phones:["01774093509"]},
+{id:"M-5103",pf:"M-5103",name:"Mamun Khandaker",desig:"Senior Officer",branch:"Kalir Bazar Branch",branchCode:"",phones:["01765999784"]},
+{id:"SO-2026-274018",pf:"SO-2026-274018",name:"Monir Hossain",desig:"Senior Officer",branch:"Kalir Bazar Branch",branchCode:"",phones:["01787710305"]},
+{id:"S-4543",pf:"S-4543",name:"Md. Sultan Mahmud",desig:"Officer",branch:"Kalir Bazar Branch",branchCode:"",phones:["01969337522"]},
+{id:"S-6031",pf:"S-6031",name:"Md. Sohel Tanvir",desig:"Officer (Cash)",branch:"Kalir Bazar Branch",branchCode:"",phones:["01521322439"]},
+{id:"S-6143",pf:"S-6143",name:"Shahin Alam",desig:"Officer (Cash)",branch:"Kalir Bazar Branch",branchCode:"",phones:["01571201104"]},
+
+{id:"A-4981",pf:"A-4981",name:"K. M. Atahar Hossain",desig:"Principal Officer",branch:"Gopalpurhat Branch",branchCode:"",phones:["01712369481"]},
+{id:"S-4255",pf:"S-4255",name:"Sujit Talukder",desig:"Officer",branch:"Gopalpurhat Branch",branchCode:"",phones:["01787166614"]},
+{id:"B-926",pf:"B-926",name:"Bulbul Shekh",desig:"Officer",branch:"Gopalpurhat Branch",branchCode:"",phones:["01846605260"]},
+{id:"K-1336",pf:"K-1336",name:"Umma Kawsara Sorna",desig:"Officer",branch:"Gopalpurhat Branch",branchCode:"",phones:["01602392298"]},
+{id:"S-6250",pf:"S-6250",name:"Shahin Reza",desig:"Officer",branch:"Gopalpurhat Branch",branchCode:"",phones:["01728078019"]},
+{id:"S-5217",pf:"S-5217",name:"Samir Sarker",desig:"Officer (Cash)",branch:"Gopalpurhat Branch",branchCode:"",phones:["01751804999","01924586986"]},
+
+{id:"S-3628",pf:"S-3628",name:"Shankar Chandra Malo",desig:"Principal Officer",branch:"Chanderchar Branch",branchCode:"",phones:["01712795015"]},
+{id:"H-979",pf:"H-979",name:"Haren Ch. Sarkar",desig:"Senior Officer",branch:"Chanderchar Branch",branchCode:"",phones:["01912856468"]},
+{id:"H-1147",pf:"H-1147",name:"Hafija Akter",desig:"Officer",branch:"Chanderchar Branch",branchCode:"",phones:["01726923154"]},
+{id:"K-1262",pf:"K-1262",name:"Khaled Bin Alam",desig:"Officer",branch:"Chanderchar Branch",branchCode:"",phones:["01748466327"]},
+{id:"B-889",pf:"B-889",name:"Bas Deb Roy",desig:"Officer (Cash)",branch:"Chanderchar Branch",branchCode:"",phones:["01735291511"]},
+
+{id:"S-4254",pf:"S-4254",name:"Sharmin Akter",desig:"Senior Officer",branch:"Bajitpur Branch",branchCode:"",phones:["01725066412"]},
+{id:"B-485",pf:"B-485",name:"Basudev Kumar Das",desig:"Senior Officer",branch:"Bajitpur Branch",branchCode:"",phones:["01713923058"]},
+{id:"S-5953",pf:"S-5953",name:"Sazzad Hossain",desig:"Senior Officer",branch:"Bajitpur Branch",branchCode:"",phones:["01750801062"]},
+{id:"B-923",pf:"B-923",name:"Md. Bipul Hossen",desig:"Officer",branch:"Bajitpur Branch",branchCode:"",phones:["01312483783"]},
+{id:"S-5824",pf:"S-5824",name:"Sazzad Mahamud",desig:"Officer",branch:"Bajitpur Branch",branchCode:"",phones:["01756991358"]},
+
+{id:"M-3587",pf:"M-3587",name:"Mustafizur Rahman",desig:"Senior Principal Officer",branch:"Ghatakchar Bazar Branch",branchCode:"",phones:["01712553620"]},
+{id:"M-3918",pf:"M-3918",name:"Md Mafuzur Rahman Matubber",desig:"Senior Officer",branch:"Ghatakchar Bazar Branch",branchCode:"",phones:["01712606036"]},
+{id:"A-9054",pf:"A-9054",name:"Md. Ahsan Ullah",desig:"Senior Officer",branch:"Ghatakchar Bazar Branch",branchCode:"",phones:["01932619686"]},
+{id:"A-8193",pf:"A-8193",name:"Akash Miah",desig:"Officer",branch:"Ghatakchar Bazar Branch",branchCode:"",phones:["01717788855"]},
+{id:"M-4653",pf:"M-4653",name:"Md Al Mamun",desig:"Officer",branch:"Ghatakchar Bazar Branch",branchCode:"",phones:["01818143314"]},
+{id:"S-5829",pf:"S-5829",name:"Shahariar Nazim Sumon",desig:"Officer",branch:"Ghatakchar Bazar Branch",branchCode:"",phones:["01723371366"]},
+{id:"A-9000",pf:"A-9000",name:"Akib Mir",desig:"Officer",branch:"Ghatakchar Bazar Branch",branchCode:"",phones:["01780461121"]},
+{id:"P-636",pf:"P-636",name:"Pallab Mondol",desig:"Officer (Cash)",branch:"Ghatakchar Bazar Branch",branchCode:"",phones:["01568275627"]},
+
+{id:"S-4052",pf:"S-4052",name:"Salauddin",desig:"Principal Officer",branch:"Khaserhat Branch",branchCode:"",phones:["01726393868"]},
+{id:"T-569",pf:"T-569",name:"Tapas Mridha",desig:"Senior Officer",branch:"Khaserhat Branch",branchCode:"",phones:["01733992900"]},
+{id:"B-846",pf:"B-846",name:"Bikash Kirttania",desig:"Officer",branch:"Khaserhat Branch",branchCode:"",phones:["01718511141"]},
+{id:"M-5035",pf:"M-5035",name:"Md. Muktar Hossain",desig:"Officer",branch:"Khaserhat Branch",branchCode:"",phones:["01515617565"]},
+{id:"T-960",pf:"T-960",name:"Md. Tanvir Rihan",desig:"Officer (Cash)",branch:"Khaserhat Branch",branchCode:"",phones:["01408832942"]},
+
+{id:"S-3971",pf:"S-3971",name:"Sorowar Hosen",desig:"Principal Officer",branch:"Tatikanda Branch",branchCode:"",phones:["01718646600"]},
+{id:"S-5960",pf:"S-5960",name:"Shuvra Gain",desig:"Senior Officer",branch:"Tatikanda Branch",branchCode:"",phones:["01521108488"]},
+{id:"T-888",pf:"T-888",name:"Tanmay Mandal",desig:"Officer",branch:"Tatikanda Branch",branchCode:"",phones:["01889097097"]},
+{id:"S-5811",pf:"S-5811",name:"Md. Selim Reza",desig:"Officer",branch:"Tatikanda Branch",branchCode:"",phones:["01918786543"]},
+{id:"Z-614",pf:"Z-614",name:"Zahidul Islam",desig:"Officer (Cash)",branch:"Tatikanda Branch",branchCode:"",phones:["01781286287"]},
+
+{id:"S-5391",pf:"S-5391",name:"Md. Shoumik Hasan",desig:"Principal Officer",branch:"Uttar Ramjanpurhat Branch",branchCode:"",phones:["01814182634"]},
+{id:"H-1167",pf:"H-1167",name:"Md. Hasan Ali",desig:"Officer",branch:"Uttar Ramjanpurhat Branch",branchCode:"",phones:["01918958454"]},
+{id:"B-905",pf:"B-905",name:"Md. Bilal Hossain",desig:"Officer",branch:"Uttar Ramjanpurhat Branch",branchCode:"",phones:["01701875877"]},
+{id:"Z-584",pf:"Z-584",name:"Md. Zakir Hossen",desig:"Officer",branch:"Uttar Ramjanpurhat Branch",branchCode:"",phones:["01834424434"]},
+{id:"S-6199",pf:"S-6199",name:"Md Suhag Ali",desig:"Officer",branch:"Uttar Ramjanpurhat Branch",branchCode:"",phones:["01728974170"]}
+];
+
+BASE_EMPLOYEES.forEach(e=>{
+  e.phones = e.phones.map(p=>{
+    p = p.replace(/\s+/g,'');
+    if(!p.startsWith('0') && p.length===10) p = '0'+p;
+    return p;
+  });
+  e.district = "Madaripur";
+});
+
+// ---------- persistence (localStorage) ----------
+const STORAGE_KEY = 'kb_madaripur_dir_v1';
+function loadStore(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return {edits:{}, deletes:[], adds:[]};
+    return JSON.parse(raw);
+  }catch(e){ return {edits:{}, deletes:[], adds:[]}; }
+}
+function saveStore(store){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(store)); }catch(e){}
+}
+let store = loadStore();
+
+function getAllEmployees(){
+  let list = BASE_EMPLOYEES
+    .filter(e=>!store.deletes.includes(e.id))
+    .map(e=> store.edits[e.id] ? store.edits[e.id] : e);
+  list = list.concat(store.adds.filter(e=>!store.deletes.includes(e.id)));
+  return list;
+}
+
+let state = { query:"", filter:"all", grouped:true };
+
+const listArea = document.getElementById('listArea');
+const searchInput = document.getElementById('searchInput');
+const clearBtn = document.getElementById('clearSearch');
+const filterRow = document.getElementById('filterRow');
+const resultCount = document.getElementById('resultCount');
+const groupToggle = document.getElementById('groupToggle');
+const overlay = document.getElementById('overlay');
+const sheet = document.getElementById('sheet');
+const toastEl = document.getElementById('toast');
+
+function renderChips(){
+  const employees = getAllEmployees();
+  const branches = [...new Set(employees.map(e=>e.branch))].sort();
+  let html = `<div class="chip ${state.filter==='all'?'active':''}" data-b="all">সব শাখা</div>`;
+  branches.forEach(b=>{
+    html += `<div class="chip ${state.filter===b?'active':''}" data-b="${b}">${b.replace(' Branch','')}</div>`;
+  });
+  filterRow.innerHTML = html;
+  filterRow.querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click', ()=>{ state.filter = c.dataset.b; render(); });
+  });
+}
+
+function initials(name){
+  const parts = name.replace(/[.]/g,'').split(' ').filter(Boolean);
+  if(parts.length===1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0][0]+parts[1][0]).toUpperCase();
+}
+
+function esc(s){
+  return (s||'').toString().replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function matches(e, q){
+  if(!q) return true;
+  q = q.toLowerCase();
+  return e.name.toLowerCase().includes(q) ||
+         e.pf.toLowerCase().includes(q) ||
+         e.desig.toLowerCase().includes(q) ||
+         e.branch.toLowerCase().includes(q) ||
+         (e.branchCode||'').toLowerCase().includes(q) ||
+         e.phones.some(p=>p.includes(q));
+}
+
+function getFiltered(){
+  return getAllEmployees().filter(e=>{
+    const okBranch = state.filter==='all' || e.branch===state.filter;
+    return okBranch && matches(e, state.query);
+  });
+}
+
+function cardHTML(e){
+  return `<div class="emp-card" data-id="${esc(e.id)}">
+    <div class="avatar">${initials(e.name)}</div>
+    <div class="emp-info">
+      <div class="emp-name">${esc(e.name)}</div>
+      <div class="emp-role">${esc(e.desig)} · ${esc(e.branch.replace(' Branch',''))}${e.branchCode?(' · '+esc(e.branchCode)):''}</div>
+      <div class="emp-pf">PF: ${esc(e.pf)}</div>
+    </div>
+    <a class="call-quick" href="tel:${esc(e.phones[0])}" onclick="event.stopPropagation()" title="কল করুন">📞</a>
+  </div>`;
+}
+
+function render(){
+  renderChips();
+  const all = getAllEmployees();
+  document.getElementById('statEmp').textContent = all.length;
+  document.getElementById('statBranch').textContent = [...new Set(all.map(e=>e.branch))].length;
+
+  const filtered = getFiltered();
+  resultCount.textContent = state.query || state.filter!=='all'
+    ? `${filtered.length} জন পাওয়া গেছে`
+    : `সব কর্মকর্তা (${filtered.length})`;
+  groupToggle.textContent = state.grouped ? 'তালিকা আকারে দেখুন' : 'শাখা অনুযায়ী দেখুন';
+
+  if(filtered.length===0){
+    listArea.innerHTML = `<div class="empty-state"><div class="glyph">🔍</div>কোনো তথ্য পাওয়া যায়নি<br>ভিন্ন কিছু লিখে আবার চেষ্টা করুন</div>`;
+    return;
+  }
+
+  if(state.grouped){
+    const byBranch = {};
+    filtered.forEach((e)=>{ (byBranch[e.branch] = byBranch[e.branch]||[]).push(e); });
+    let html = '';
+    Object.keys(byBranch).sort().forEach(b=>{
+      const codeSample = byBranch[b].find(x=>x.branchCode)?.branchCode || '';
+      html += `<div class="branch-group"><div class="branch-head">🏦 ${esc(b)} ${codeSample?('<span class="code">('+esc(codeSample)+')</span>'):''}<span class="count">${byBranch[b].length}</span></div>`;
+      byBranch[b].forEach(e=>{ html += cardHTML(e); });
+      html += `</div>`;
+    });
+    listArea.innerHTML = html;
+  } else {
+    listArea.innerHTML = filtered.map(e=>cardHTML(e)).join('');
+  }
+
+  listArea.querySelectorAll('.emp-card').forEach(c=>{
+    c.addEventListener('click', ()=>{
+      const emp = getAllEmployees().find(x=>x.id===c.dataset.id);
+      if(emp) openViewSheet(emp);
+    });
+  });
+}
+
+// ---------- view sheet ----------
+function openViewSheet(e){
+  const phonesRow = e.phones.map((p,i)=>`<div class="detail-row"><span class="k">ফোন ${e.phones.length>1?(i+1):''}</span><span class="v">${esc(p)}</span></div>`).join('');
+  sheet.innerHTML = `
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div class="sheet-avatar">${initials(e.name)}</div>
+      <div><div class="sheet-name">${esc(e.name)}</div><div class="sheet-role">${esc(e.desig)}</div></div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-row"><span class="k">PF Index</span><span class="v">${esc(e.pf)}</span></div>
+      <div class="detail-row"><span class="k">শাখা</span><span class="v">${esc(e.branch)}</span></div>
+      <div class="detail-row"><span class="k">শাখা কোড</span><span class="v ${e.branchCode?'':'empty'}">${e.branchCode?esc(e.branchCode):'যোগ করা হয়নি'}</span></div>
+      <div class="detail-row"><span class="k">জেলা</span><span class="v">${esc(e.district)}</span></div>
+      ${phonesRow}
+    </div>
+    <div class="action-grid">
+      <a class="action-btn primary" href="tel:${esc(e.phones[0])}"><span class="ic">📞</span>কল</a>
+      <a class="action-btn" href="sms:${esc(e.phones[0])}"><span class="ic">💬</span>এসএমএস</a>
+      <div class="action-btn" id="copyBtn"><span class="ic">📋</span>কপি</div>
+      <div class="action-btn" id="shareBtn"><span class="ic">📤</span>শেয়ার</div>
+    </div>
+    <div class="action-grid" style="grid-template-columns:1fr 1fr; margin-top:10px;">
+      <div class="action-btn" id="editBtn"><span class="ic">✏️</span>এডিট</div>
+      <div class="action-btn danger" id="deleteBtn"><span class="ic">🗑️</span>ডিলিট</div>
+    </div>
+  `;
+  overlay.classList.add('show');
+
+  sheet.querySelector('#copyBtn').addEventListener('click', ()=>{
+    navigator.clipboard?.writeText(e.phones[0]);
+    showToast('নম্বর কপি হয়েছে');
+  });
+  sheet.querySelector('#shareBtn').addEventListener('click', async ()=>{
+    const text = `${e.name}\n${e.desig}\n${e.branch}${e.branchCode?(' ('+e.branchCode+')'):''}\nফোন: ${e.phones.join(', ')}\nPF Index: ${e.pf}`;
+    if(navigator.share){ try{ await navigator.share({title:e.name, text}); }catch(err){} }
+    else { navigator.clipboard?.writeText(text); showToast('তথ্য কপি হয়েছে (শেয়ার সাপোর্ট নেই)'); }
+  });
+  sheet.querySelector('#editBtn').addEventListener('click', ()=> openFormSheet(e));
+  sheet.querySelector('#deleteBtn').addEventListener('click', ()=> confirmDelete(e));
+}
+
+// ---------- add/edit form sheet ----------
+function openFormSheet(existing){
+  const isEdit = !!existing;
+  const e = existing || {id:'', pf:'', name:'', desig:'', branch:'', branchCode:'', phones:['']};
+  sheet.innerHTML = `
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">${isEdit? '✏️ কর্মকর্তার তথ্য এডিট করুন' : '➕ নতুন কর্মকর্তা যোগ করুন'}</div>
+    <div class="form-field"><label>PF Index *</label><input id="f_pf" value="${esc(e.pf)}" placeholder="যেমন: S-1234"></div>
+    <div class="form-field"><label>নাম *</label><input id="f_name" value="${esc(e.name)}" placeholder="পূর্ণ নাম লিখুন"></div>
+    <div class="form-field"><label>পদবি (Designation) *</label><input id="f_desig" value="${esc(e.desig)}" placeholder="যেমন: Officer"></div>
+    <div class="form-field"><label>শাখার নাম *</label><input id="f_branch" value="${esc(e.branch)}" placeholder="যেমন: Madaripur Branch"></div>
+    <div class="form-field"><label>শাখা কোড</label><input id="f_code" value="${esc(e.branchCode)}" placeholder="যেমন: 1234 (ঐচ্ছিক)"></div>
+    <div class="form-field"><label>ফোন নম্বর *</label><input id="f_phone" value="${esc(e.phones.join(', '))}" placeholder="একাধিক হলে কমা দিয়ে লিখুন">
+      <div class="hint">উদাহরণ: 01712345678, 01898765432</div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-cancel" id="cancelForm">বাতিল</button>
+      <button class="btn-save" id="saveForm">${isEdit?'আপডেট করুন':'সংরক্ষণ করুন'}</button>
+    </div>
+  `;
+  overlay.classList.add('show');
+
+  sheet.querySelector('#cancelForm').addEventListener('click', ()=> overlay.classList.remove('show'));
+  sheet.querySelector('#saveForm').addEventListener('click', ()=>{
+    const pf = sheet.querySelector('#f_pf').value.trim();
+    const name = sheet.querySelector('#f_name').value.trim();
+    const desig = sheet.querySelector('#f_desig').value.trim();
+    const branch = sheet.querySelector('#f_branch').value.trim();
+    const branchCode = sheet.querySelector('#f_code').value.trim();
+    const phoneRaw = sheet.querySelector('#f_phone').value.trim();
+    if(!pf || !name || !desig || !branch || !phoneRaw){
+      showToast('তারকা (*) চিহ্নিত ঘরগুলো পূরণ করুন'); return;
+    }
+    const phones = phoneRaw.split(',').map(p=>p.trim()).filter(Boolean);
+    const newEmp = {
+      id: isEdit ? e.id : ('NEW-'+pf+'-'+Date.now()),
+      pf, name, desig, branch, branchCode, phones, district:'Madaripur'
+    };
+    if(isEdit){
+      // if it's a base employee -> store as edit; if it's already a user-added one -> update in adds
+      const addIdx = store.adds.findIndex(x=>x.id===e.id);
+      if(addIdx>-1){ store.adds[addIdx] = newEmp; }
+      else { store.edits[e.id] = newEmp; }
+    } else {
+      store.adds.push(newEmp);
+    }
+    saveStore(store);
+    overlay.classList.remove('show');
+    showToast(isEdit?'তথ্য আপডেট হয়েছে':'নতুন কর্মকর্তা যোগ হয়েছে');
+    render();
+  });
+}
+
+function confirmDelete(e){
+  sheet.innerHTML = `
+    <div class="confirm-box">
+      <div style="font-size:2rem;">🗑️</div>
+      <p><b>${esc(e.name)}</b>-কে তালিকা থেকে ডিলিট করতে চান?<br>এই কাজটি ফিরিয়ে নেওয়া যাবে না।</p>
+      <div class="confirm-actions">
+        <button class="btn-cancel" id="cancelDel">বাতিল</button>
+        <button style="background:var(--danger); color:#fff;" id="okDel">ডিলিট করুন</button>
+      </div>
+    </div>
+  `;
+  sheet.querySelector('#cancelDel').addEventListener('click', ()=> openViewSheet(e));
+  sheet.querySelector('#okDel').addEventListener('click', ()=>{
+    store.deletes.push(e.id);
+    saveStore(store);
+    overlay.classList.remove('show');
+    showToast('ডিলিট করা হয়েছে');
+    render();
+  });
+}
+
+overlay.addEventListener('click', (ev)=>{ if(ev.target===overlay) overlay.classList.remove('show'); });
+
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(()=>toastEl.classList.remove('show'), 1800);
+}
+
+searchInput.addEventListener('input', ()=>{
+  state.query = searchInput.value.trim();
+  clearBtn.style.display = state.query ? 'flex' : 'none';
+  render();
+});
+clearBtn.addEventListener('click', ()=>{
+  searchInput.value=''; state.query=''; clearBtn.style.display='none'; render();
+});
+groupToggle.addEventListener('click', ()=>{ state.grouped = !state.grouped; render(); });
+document.getElementById('fabAdd').addEventListener('click', ()=> openFormSheet(null));
+
+let dark = false;
+document.getElementById('themeToggle').addEventListener('click', ()=>{
+  dark = !dark;
+  document.body.setAttribute('data-theme', dark ? 'dark':'light');
+});
+
+// ---------- PWA manifest (for when hosted online over https) ----------
+(function setupManifest(){
+  const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <rect width="200" height="200" rx="40" fill="#0b3d33"/>
+    <circle cx="100" cy="95" r="55" fill="#c99a3f"/>
+    <text x="100" y="115" font-size="60" text-anchor="middle" fill="#241c07" font-family="sans-serif" font-weight="700">কৃ</text>
+  </svg>`;
+  const iconUri = 'data:image/svg+xml,' + encodeURIComponent(iconSvg);
+  const manifest = {
+    name: "বাংলাদেশ কৃষি ব্যাংক, মাদারীপুর ডিরেক্টরি",
+    short_name: "কৃষি ব্যাংক মাদারীপুর",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#0b3d33",
+    theme_color: "#0d5c4d",
+    icons: [
+      {src: iconUri, sizes:"any", type:"image/svg+xml", purpose:"any maskable"}
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  document.getElementById('manifestLink').href = URL.createObjectURL(blob);
+})();
+
+// ---------- install prompt handling ----------
+let deferredPrompt = null;
+const installBtn = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt', (ev)=>{
+  ev.preventDefault();
+  deferredPrompt = ev;
+  installBtn.style.display = 'flex';
+});
+installBtn.addEventListener('click', async ()=>{
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    installBtn.style.display = 'none';
+  } else {
+    showManualInstallSheet();
+  }
+});
+function showManualInstallSheet(){
+  sheet.innerHTML = `
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">📲 ফোনে ইনস্টল করবেন যেভাবে</div>
+    <div style="font-size:.9rem; line-height:1.7;">
+      <p><b>যদি ফাইলটা সরাসরি (file://) খুলে থাকেন:</b><br>
+      Chrome-এর ⋮ মেনুতে <b>"Add to Home screen"</b> অপশনটি শুধু শর্টকাট আইকন হিসেবে যোগ হবে, পূর্ণাঙ্গ "Install app" প্রম্পট আসবে না — কারণ Chrome-এর install ফিচার শুধু https ঠিকানায় হোস্ট করা পেজেই কাজ করে।</p>
+      <p><b>পূর্ণাঙ্গ ইনস্টলযোগ্য অ্যাপ বানাতে চাইলে:</b><br>
+      ফাইলটি বিনামূল্যে <b>netlify.com/drop</b>-এ ড্র্যাগ-ড্রপ করে আপলোড করুন। এতে একটা https লিংক পাবেন। সেই লিংক ফোনের Chrome-এ খুললে ⋮ মেনুতে আসল <b>"Install app"</b> অপশন দেখা যাবে এবং পুরোপুরি নেটিভ অ্যাপের মতো ইনস্টল হবে।</p>
+      <p><b>এখনই শর্টকাট বানাতে চাইলে:</b><br>
+      Chrome-এ ফাইলটি খোলা অবস্থায় ডান পাশের ⋮ (তিনটি ডট) মেনুতে ট্যাপ করুন → নিচের দিকে স্ক্রল করুন → <b>"Add to Home screen"</b> খুঁজে নিন। এটা ফাইল ম্যানেজারের প্রিভিউ দিয়ে খুললে দেখা যায় না — Chrome অ্যাপ থেকেই খুলতে হবে।</p>
+    </div>
+    <div class="form-actions"><button class="btn-save" id="closeInstallInfo" style="width:100%;">বুঝেছি</button></div>
+  `;
+  overlay.classList.add('show');
+  sheet.querySelector('#closeInstallInfo').addEventListener('click', ()=> overlay.classList.remove('show'));
+}
+
+// show install button always as a manual-help entry point too (in case beforeinstallprompt never fires)
+setTimeout(()=>{ if(!deferredPrompt) installBtn.style.display='flex'; }, 1200);
+
+render();
+</script>
+</body>
+</html>
